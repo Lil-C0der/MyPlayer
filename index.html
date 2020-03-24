@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Player</title>
+    <link rel="stylesheet" href="./css/index.css" />
+  </head>
+
+  <body>
+    <div class="wrap">
+      <!-- 播放器主体区域 -->
+      <div class="play_wrap" id="player">
+        <div class="search_bar">
+          <img src="img/player_title.png" alt="" />
+          <!-- 搜索歌曲 -->
+          <input
+            type="text"
+            autocomplete="off"
+            v-model="query"
+            @keyup.enter="searchMusic"
+          />
+        </div>
+        <div class="center_con">
+          <!-- 搜索歌曲列表 -->
+          <div class="song_wrapper">
+            <ul class="song_list">
+              <li v-for="item in songList">
+                <!-- 播放功能 -->
+                <a href="javascript:;" @click="playMusic(item.id)"></a>
+                <b>{{ item.name }}</b>
+                <!-- 是否显示mv图标 -->
+                <span v-if="item.mvid"><i @click="playMv(item.mvid)"></i></span>
+              </li>
+            </ul>
+            <img src="img/line.png" class="switch_btn" alt="" />
+          </div>
+
+          <!-- 歌曲信息容器 -->
+          <div class="player_con" :class="{playing:isPlaying}">
+            <img src="img/player_bar.png" class="play_bar" />
+            <!-- 黑胶碟片 -->
+            <img src="img/disc.png" class="disc autoRotate" />
+            <img v-bind:src="coverPic" class="cover autoRotate" />
+          </div>
+
+          <!-- 评论容器 -->
+          <div class="comment_wrapper">
+            <h5 class="title">热门留言</h5>
+            <div class="comment_list">
+              <dl v-for="item in commentList">
+                <dt><img :src="item.user.avatarUrl" alt="" /></dt>
+                <dd class="name">{{ item.user.nickname }}</dd>
+                <dd class="detail">{{ item.content }}</dd>
+              </dl>
+            </div>
+            <img src="img/line.png" class="right_line" />
+          </div>
+        </div>
+
+        <!-- 底部播放进度条 -->
+        <div class="audio_con">
+          <audio
+            @play="play"
+            @pause="pause"
+            ref="audio"
+            controls
+            autoplay
+            loop
+            class="myaudio"
+            :src="musicUrl"
+          ></audio>
+        </div>
+
+        <!-- 播放mv -->
+        <div class="video_con" style="display: none;" v-show="showMv">
+          <video controls="controls" autoplay :src="mvUrl"></video>
+          <!-- 遮罩层 -->
+          <div class="mask" @click="hide"></div>
+        </div>
+      </div>
+    </div>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 官网提供的 axios 在线地址 -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </body>
+</html>
+
+<script src="./js/player.js"></script>
