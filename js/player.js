@@ -14,7 +14,7 @@ var player = new Vue({
   },
   methods: {
     // 搜索音乐
-    searchMusic: function() {
+    searchMusic() {
       axios.get(`https://autumnfish.cn/search?keywords=${this.query}`).then(
         function(res) {
           this.player.songList = res.data.result.songs;
@@ -26,7 +26,7 @@ var player = new Vue({
     },
 
     // 播放音乐 访问接口 https://autumnfish.cn/song/url 请求参数为歌曲id
-    playMusic: function(musicId) {
+    playMusic(musicId) {
       // 获取音乐
       axios.get(`https://autumnfish.cn/song/url?id=${musicId}`).then(
         function(res) {
@@ -61,15 +61,15 @@ var player = new Vue({
       );
     },
 
-    play: function() {
+    play() {
       this.isPlaying = true;
     },
-    pause: function() {
+    pause() {
       this.isPlaying = false;
     },
 
     // 播放mv
-    playMv: function(mvId) {
+    playMv(mvId) {
       this.showMv = true;
       // 暂停当前播放的音乐
       this.pause();
@@ -85,7 +85,7 @@ var player = new Vue({
       );
     },
     // 点击背景处暂停播放mv
-    hide: function() {
+    hide() {
       this.showMv = false;
       this.mvUrl = "";
     }
